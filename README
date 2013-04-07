@@ -1,4 +1,8 @@
 Armory README
 
-SNMP project
-testing git
+agent.py and server.py working
+
+Requirements
+Cherrypy
+Requests
+Mongodb
