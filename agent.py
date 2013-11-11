@@ -8,7 +8,8 @@ loader = TemplateLoader('templates', auto_reload=True)
 
 class Converter:
 	
-	def bytes2human(n):
+	@expose
+	def bytes2human(self, n):
 		'''
 		http://code.activestate.com/recipes/578019
 		>>> bytes2human(10000)
@@ -30,29 +31,23 @@ class Converter:
 	def memory(self, type):
 		mem = psutil.phymem_usage()
 		if type == 'used':
-			used = '%s' %(mem.used / 1048576)
-			return '%s' % used
+			return self.bytes2human(mem.used)
 		if type == 'total':
-			total = 'Memory total: %s' %(mem.total / 1048576)
-			return '%s' % total
+			return self.bytes2human(mem.total)
 		if type == 'free':
-			free = 'Memory free: %s' %(mem.free / 1048576)
-			return '%s' % free
+			return self.bytes2human(mem.free)
 		else:
-			print 'You forget to pass the type(used,total or free)'
+			return 'You forget to pass the type(used,total or free)'
 
 	@expose
 	def swap(self, type):
 		swap = psutil.swap_memory()
 		if type == 'used':
-			used = '%s' %(swap.used / 1048576)
-			return '%s' % used
+			return self.bytes2human(swap.used)
 		if type == 'total':
-			total = '%s' %(swap.total / 1048576)
-			return '%s' % total
+			return self.bytes2human(swap.total)
 		if type == 'free':
-			free = '%s' %(swap.free / 1048576)
-			return '%s' % free
+			return self.bytes2human(swap.free)
 		else:
 			print 'You forget to pass the type(used,total or free)'
 
@@ -72,7 +67,12 @@ class Converter:
 		if type == 'load5':
 			return '%s' % self.cpu5m
 		if type == 'load15':
-			return '%s' % self.cpu15m			
+			return '%s' % self.cpu15m
+
+	@expose
+	def hostname(self):
+		return os.uname()[1]
+
 	@expose 
 	def disks(self):
 		partitions = psutil.disk_partitions(all=False)
@@ -83,9 +83,6 @@ class Converter:
 		tmpl = loader.load('index.html')
 		stream = tmpl.generate(Converter = Converter())
 		html = stream.render('xhtml')
-		return html
-		#return 'Armory Agent\n' + 'Memory Used:' + self.memory('used')
-		#return 'swap' + self.swap('total')
-		
+		return html	
 
 cherrypy.quickstart(Converter())
