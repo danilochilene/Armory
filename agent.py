@@ -3,6 +3,8 @@
 
 import cherrypy, psutil, os
 from cherrypy import expose
+from genshi.template import TemplateLoader
+loader = TemplateLoader('templates', auto_reload=True)
 
 class Converter:
 	
@@ -52,7 +54,8 @@ class Converter:
 			free = '%s' %(swap.free / 1048576)
 			return '%s' % free
 		else:
-			print 'You forget to pass the type(used,total or free)'		
+			print 'You forget to pass the type(used,total or free)'
+
 	@expose
 	def cpu(self, type):
 		self.cpu1m  = os.getloadavg()[0]
@@ -73,11 +76,16 @@ class Converter:
 	@expose 
 	def disks(self):
 		partitions = psutil.disk_partitions(all=False)
-		return partitions
+		return partitions[0]
 
 	@expose
 	def index(self):
-		return 'Armory Agent\n' + 'Memory Used:' + self.memory('used')  
+		tmpl = loader.load('index.html')
+		stream = tmpl.generate(Converter = Converter())
+		html = stream.render('xhtml')
+		return html
+		#return 'Armory Agent\n' + 'Memory Used:' + self.memory('used')
+		#return 'swap' + self.swap('total')
 		
 
 cherrypy.quickstart(Converter())
