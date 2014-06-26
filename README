@@ -1,4 +1,20 @@
-Armory README
+# Armory - Monitoring Software
+
+
+Develop a monitoring tool mult-plataform with checks using agents passive/ative and agentless checks using SNMP with a good web interface with easy administration, using cool
+technologies.
+
+
+Below the features planned:
+– Passive Monitoring
+– Active Monitoring
+– Remote commands ( secure remote commands with ssh )
+– Simple configuration
+– Custom Check
+– Perfomance
+– Plugins System ( Monitor Apps – Oracle, etc )
+– Syslog integration
+- Dashboard using Grafana
 
 agent.py and server.py working
 

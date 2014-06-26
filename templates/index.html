@@ -10,10 +10,20 @@
   <br/>
   <span class="greeting">Total CPU's: ${Converter.cpu('total_cpu')}</span>
   <br/>
+  <span class="greeting">CPU Usage: ${Converter.cpu('cputimes')}</span>
+  <br/>
   <span class="greeting">Total memory: ${Converter.memory('total')}</span>
   <br/>
   <span class="greeting">Total SWAP: ${Converter.swap('total')}</span>
   <br/>
-  <span class="greeting">Disks: ${Converter.disks()}</span>  
+  <span class="greeting">Disks: ${Converter.disk_partitions()}</span>
+  <br/>
+  <span class="greeting">Total Process: ${Converter.process('total_process')}</span>
+  <br/>
+  <span class="greeting">Process name: ${Converter.process('processname')}</span>
+  <br/>
+  <span class="greeting">Users: ${Converter.users()}</span>
+  <br/>
+  <span class="greeting">Iventory: ${Converter.inventory()}</span>
  </body>
 </html>
